@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>British English Phonemes — RP Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:wght@300;400;500&family=DM+Mono&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #0a0a0f; --surface: #13131a; --surface2: #1c1c26;
+    --border: rgba(255,255,255,0.07); --text: #f0eee8; --muted: #7a7890;
+    --short-bg:#0d1f3c; --short-a:#7eb8f7; --short-b:#1e3f6e;
+    --long-bg:#1a0d3c;  --long-a:#b8a8ff;  --long-b:#3a2470;
+    --diph-bg:#0d2e22;  --diph-a:#5de0a8;  --diph-b:#1a5c44;
+    --stop-bg:#2e1208;  --stop-a:#f09a6a;  --stop-b:#5c2a12;
+    --fric-bg:#2e1f00;  --fric-a:#f5c060;  --fric-b:#5c3e00;
+    --affr-bg:#2e0a1c;  --affr-a:#f07ab0;  --affr-b:#5c1438;
+    --nasal-bg:#0e2208; --nasal-a:#8ed65a; --nasal-b:#1e4a10;
+    --approx-bg:#1a1a1a;--approx-a:#b0ada0;--approx-b:#383838;
+  }
+  html { scroll-behavior: smooth; }
+  body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; font-weight: 300; min-height: 100vh; overflow-x: hidden; }
+
+  .noise { position:fixed; inset:0; pointer-events:none; z-index:0; opacity:0.022;
+    background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-size:200px; }
+
+  .hero { position:relative; z-index:1; text-align:center; padding:5rem 2rem 3rem;
+    background:radial-gradient(ellipse 80% 50% at 50% 0%,rgba(140,100,255,.13) 0%,transparent 70%); }
+  .hero-eyebrow { font-family:'DM Mono',monospace; font-size:11px; letter-spacing:.2em; color:var(--muted); text-transform:uppercase; margin-bottom:1rem; opacity:0; animation:fadeUp .6s .1s forwards; }
+  .hero h1 { font-family:'Playfair Display',serif; font-size:clamp(2.4rem,6vw,4.5rem); font-weight:700; line-height:1.1;
+    background:linear-gradient(135deg,#fff 30%,#b8a8ff 70%,#5de0a8 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+    margin-bottom:1rem; opacity:0; animation:fadeUp .6s .2s forwards; }
+  .hero p { font-size:15px; color:var(--muted); max-width:500px; margin:0 auto 2.5rem; line-height:1.7; opacity:0; animation:fadeUp .6s .3s forwards; }
+  .hero strong { color:#b8a8ff; font-weight:500; }
+  .stats { display:flex; justify-content:center; gap:2.5rem; flex-wrap:wrap; opacity:0; animation:fadeUp .6s .4s forwards; }
+  .stat { text-align:center; }
+  .stat-n { font-family:'Playfair Display',serif; font-size:2rem; color:#b8a8ff; }
+  .stat-l { font-size:11px; color:var(--muted); letter-spacing:.1em; text-transform:uppercase; margin-top:2px; }
+
+  .container { max-width:980px; margin:0 auto; padding:0 1.5rem 5rem; position:relative; z-index:1; }
+
+  .section { margin-top:3rem; opacity:0; transform:translateY(24px); transition:opacity .5s,transform .5s; }
+  .section.visible { opacity:1; transform:translateY(0); }
+
+  .section-header { display:flex; align-items:center; gap:12px; margin-bottom:1.2rem; }
+  .section-tag { font-family:'DM Mono',monospace; font-size:10px; letter-spacing:.15em; text-transform:uppercase; padding:4px 10px; border-radius:20px; border:0.5px solid; }
+  .section-count { font-size:12px; color:var(--muted); margin-left:auto; font-family:'DM Mono',monospace; }
+
+  .tag-short{color:#7eb8f7;border-color:#1e3f6e;background:rgba(30,63,110,.3);}
+  .tag-long {color:#b8a8ff;border-color:#3a2470;background:rgba(58,36,112,.3);}
+  .tag-diph {color:#5de0a8;border-color:#1a5c44;background:rgba(26,92,68,.3);}
+  .tag-stop {color:#f09a6a;border-color:#5c2a12;background:rgba(92,42,18,.3);}
+  .tag-fric {color:#f5c060;border-color:#5c3e00;background:rgba(92,62,0,.3);}
+  .tag-affr {color:#f07ab0;border-color:#5c1438;background:rgba(92,20,56,.3);}
+  .tag-nasal{color:#8ed65a;border-color:#1e4a10;background:rgba(30,74,16,.3);}
+  .tag-approx{color:#b0ada0;border-color:#383838;background:rgba(56,56,56,.3);}
+
+  .grid { display:grid; gap:8px; }
+  .g7{grid-template-columns:repeat(7,minmax(0,1fr));}
+  .g6{grid-template-columns:repeat(6,minmax(0,1fr));}
+  .g5{grid-template-columns:repeat(5,minmax(0,1fr));}
+  .g4{grid-template-columns:repeat(4,minmax(0,1fr));}
+  .g3{grid-template-columns:repeat(3,minmax(0,1fr));}
+  .g2{grid-template-columns:repeat(2,minmax(0,1fr));}
+  @media(max-width:620px){.g7,.g6,.g5{grid-template-columns:repeat(4,minmax(0,1fr));} .g4{grid-template-columns:repeat(3,minmax(0,1fr));}}
+  @media(max-width:400px){.g7,.g6,.g5,.g4,.g3{grid-template-columns:repeat(3,minmax(0,1fr));}}
+
+  .card { border-radius:12px; padding:14px 8px 10px; text-align:center; border:1px solid; cursor:pointer; position:relative; overflow:hidden;
+    transition:transform .18s cubic-bezier(.34,1.56,.64,1); user-select:none; }
+  .card::before { content:''; position:absolute; inset:0; opacity:0; transition:opacity .2s; background:radial-gradient(circle at 50% 30%,rgba(255,255,255,.08),transparent 70%); }
+  .card:hover { transform:translateY(-4px) scale(1.04); }
+  .card:hover::before { opacity:1; }
+  .card:active { transform:scale(0.96); }
+  .card.pop { animation:pop .35s ease; }
+  @keyframes pop { 0%{transform:scale(1)} 40%{transform:scale(1.1)} 100%{transform:scale(1)} }
+
+  .ipa { font-family:'Playfair Display',serif; font-size:26px; font-weight:700; display:block; line-height:1.2; }
+  .ex-word { font-size:11px; font-weight:500; margin-top:5px; display:block; letter-spacing:.03em; }
+  .ex-sub { font-size:10px; margin-top:2px; display:block; opacity:.55; font-family:'DM Mono',monospace; }
+  .sound-dot { position:absolute; top:7px; right:7px; width:6px; height:6px; border-radius:50%; opacity:.35; transition:opacity .2s; }
+  .card:hover .sound-dot { opacity:.9; }
+
+  .c-short{background:var(--short-bg);border-color:var(--short-b);} .c-short .ipa,.c-short .ex-word{color:var(--short-a);} .c-short .sound-dot{background:var(--short-a);}
+  .c-long {background:var(--long-bg); border-color:var(--long-b);}  .c-long  .ipa,.c-long  .ex-word{color:var(--long-a);}  .c-long  .sound-dot{background:var(--long-a);}
+  .c-diph {background:var(--diph-bg); border-color:var(--diph-b);}  .c-diph  .ipa,.c-diph  .ex-word{color:var(--diph-a);}  .c-diph  .sound-dot{background:var(--diph-a);}
+  .c-stop {background:var(--stop-bg); border-color:var(--stop-b);}  .c-stop  .ipa,.c-stop  .ex-word{color:var(--stop-a);}  .c-stop  .sound-dot{background:var(--stop-a);}
+  .c-fric {background:var(--fric-bg); border-color:var(--fric-b);}  .c-fric  .ipa,.c-fric  .ex-word{color:var(--fric-a);}  .c-fric  .sound-dot{background:var(--fric-a);}
+  .c-affr {background:var(--affr-bg); border-color:var(--affr-b);}  .c-affr  .ipa,.c-affr  .ex-word{color:var(--affr-a);}  .c-affr  .sound-dot{background:var(--affr-a);}
+  .c-nasal{background:var(--nasal-bg);border-color:var(--nasal-b);} .c-nasal .ipa,.c-nasal .ex-word{color:var(--nasal-a);} .c-nasal .sound-dot{background:var(--nasal-a);}
+  .c-approx{background:var(--approx-bg);border-color:var(--approx-b);} .c-approx .ipa,.c-approx .ex-word{color:var(--approx-a);} .c-approx .sound-dot{background:var(--approx-a);}
+
+  .card-stagger { opacity:0; transform:translateY(12px); transition:opacity .3s,transform .3s; }
+  .card-stagger.in { opacity:1; transform:translateY(0); }
+
+  .overlay { position:fixed; inset:0; z-index:100; background:rgba(0,0,0,.8); display:flex; align-items:center; justify-content:center; padding:1.5rem;
+    opacity:0; pointer-events:none; transition:opacity .2s; backdrop-filter:blur(8px); }
+  .overlay.open { opacity:1; pointer-events:all; }
+  .modal { background:var(--surface); border:1px solid rgba(255,255,255,.1); border-radius:22px; padding:2rem; max-width:430px; width:100%; position:relative;
+    transform:scale(.88) translateY(24px); transition:transform .28s cubic-bezier(.34,1.56,.64,1); }
+  .overlay.open .modal { transform:scale(1) translateY(0); }
+
+  .modal-badge { display:inline-block; font-size:10px; letter-spacing:.12em; text-transform:uppercase; padding:3px 10px; border-radius:20px; border:1px solid; font-family:'DM Mono',monospace; margin-bottom:.8rem; }
+  .modal-ipa { font-family:'Playfair Display',serif; font-size:4.5rem; font-weight:700; line-height:1; margin-bottom:.3rem; }
+  .modal-keyword { font-size:12px; color:var(--muted); font-family:'DM Mono',monospace; margin-bottom:1.4rem; letter-spacing:.1em; text-transform:uppercase; }
+  .modal-tip { background:var(--surface2); border-radius:10px; padding:1rem 1.2rem; font-size:14px; line-height:1.75; color:#ccc; margin-bottom:1rem; border-left:3px solid; }
+
+  .modal-examples { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:1.4rem; }
+  .ex-pill { padding:5px 13px; border-radius:20px; font-size:13px; border:1px solid var(--border); background:var(--surface2); color:var(--text); font-family:'DM Mono',monospace; cursor:pointer; transition:background .15s,border-color .15s,color .15s; }
+  .ex-pill:hover { border-color:rgba(255,255,255,.25); background:#252535; }
+  .ex-pill.active { border-color:currentColor; }
+
+  .modal-play { display:flex; align-items:center; justify-content:center; gap:10px; background:none; border:1px solid rgba(255,255,255,.12); color:var(--text); padding:11px 20px; border-radius:10px; cursor:pointer; font-family:'DM Sans',sans-serif; font-size:14px; transition:background .15s,border-color .15s; width:100%; margin-bottom:.75rem; }
+  .modal-play:hover { background:var(--surface2); border-color:rgba(255,255,255,.22); }
+
+  .wave { display:flex; align-items:center; gap:2px; height:14px; }
+  .wave span { width:3px; background:currentColor; border-radius:2px; animation:wave .7s ease-in-out infinite; }
+  .wave span:nth-child(2){animation-delay:.1s;} .wave span:nth-child(3){animation-delay:.2s;} .wave span:nth-child(4){animation-delay:.15s;} .wave span:nth-child(5){animation-delay:.05s;}
+  @keyframes wave { 0%,100%{height:3px} 50%{height:13px} }
+
+  .audio-status { font-size:11px; color:var(--muted); text-align:center; min-height:16px; margin-top:4px; font-family:'DM Mono',monospace; }
+
+  .modal-close { position:absolute; top:.9rem; right:.9rem; background:none; border:none; color:var(--muted); cursor:pointer; font-size:20px; line-height:1; padding:4px 8px; border-radius:6px; transition:color .15s,background .15s; }
+  .modal-close:hover { color:var(--text); background:var(--surface2); }
+
+  .legend { display:flex; flex-wrap:wrap; gap:8px 16px; margin-top:3rem; padding-top:1.5rem; border-top:1px solid var(--border); opacity:0; animation:fadeUp .6s .6s forwards; }
+  .leg { display:flex; align-items:center; gap:6px; font-size:12px; color:var(--muted); }
+  .leg-dot { width:8px; height:8px; border-radius:2px; }
+
+  .footer { text-align:center; font-size:12px; color:var(--muted); padding:2rem 1rem; border-top:1px solid var(--border); font-family:'DM Mono',monospace; letter-spacing:.04em; }
+
+  @keyframes fadeUp { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
+</style>
+</head>
+<body>
+<div class="noise"></div>
+
+<div class="hero">
+  <div class="hero-eyebrow">Received Pronunciation · IPA Reference</div>
+  <h1>British English<br>Phonemes</h1>
+  <p>All 44 sounds of RP British English. Click any card to hear <strong>real British audio</strong> pulled live from the dictionary, see pronunciation tips, and explore examples.</p>
+  <div class="stats">
+    <div class="stat"><div class="stat-n">20</div><div class="stat-l">Vowels</div></div>
+    <div class="stat"><div class="stat-n">24</div><div class="stat-l">Consonants</div></div>
+    <div class="stat"><div class="stat-n">44</div><div class="stat-l">Total phonemes</div></div>
+  </div>
+</div>
+
+<div class="container">
+
+  <div class="section" data-section>
+    <div class="section-header"><span class="section-tag tag-short">Short vowels</span><span class="section-count">7 sounds</span></div>
+    <div class="grid g7">
+      <div class="card c-short card-stagger" data-ipa="ɪ" data-cat="short" data-keyword="KIT" data-word="bit" data-tip="Short, lax, high front vowel. Tongue is high and forward but relaxed — don't tense it like 'ee'. Jaw slightly open. Very common in unstressed syllables." data-examples="bit,sit,lip,ship,win,fit"><span class="sound-dot"></span><span class="ipa">ɪ</span><span class="ex-word">kit</span><span class="ex-sub">b<u>i</u>t</span></div>
+      <div class="card c-short card-stagger" data-ipa="e" data-cat="short" data-keyword="DRESS" data-word="bed" data-tip="Mid front vowel. Mouth open about a finger's width. Tongue sits mid-mouth. Don't round your lips — it's a pure front vowel." data-examples="bed,red,ten,leg,set,pet"><span class="sound-dot"></span><span class="ipa">e</span><span class="ex-word">dress</span><span class="ex-sub">b<u>e</u>d</span></div>
+      <div class="card c-short card-stagger" data-ipa="æ" data-cat="short" data-keyword="TRAP" data-word="cat" data-tip="Open front vowel — widest front sound in English. Drop your jaw, push tongue forward and low. In RP it's slightly raised vs American English." data-examples="cat,hat,man,bag,sat,flat"><span class="sound-dot"></span><span class="ipa">æ</span><span class="ex-word">trap</span><span class="ex-sub">c<u>a</u>t</span></div>
+      <div class="card c-short card-stagger" data-ipa="ɒ" data-cat="short" data-keyword="LOT" data-word="hot" data-tip="Open back rounded vowel — unique to British RP! Wide open mouth, lips slightly rounded. Americans use /ɑː/ here, but RP keeps the lips rounded." data-examples="hot,dog,lot,top,box,not"><span class="sound-dot"></span><span class="ipa">ɒ</span><span class="ex-word">lot</span><span class="ex-sub">d<u>o</u>g</span></div>
+      <div class="card c-short card-stagger" data-ipa="ʌ" data-cat="short" data-keyword="STRUT" data-word="cup" data-tip="Central-back unrounded vowel. Tongue is mid-back, mouth open. Common in 'u' spellings but also 'o' (come, love). No lip rounding at all." data-examples="cup,bus,love,son,run,fun"><span class="sound-dot"></span><span class="ipa">ʌ</span><span class="ex-word">strut</span><span class="ex-sub">c<u>u</u>p</span></div>
+      <div class="card c-short card-stagger" data-ipa="ʊ" data-cat="short" data-keyword="FOOT" data-word="book" data-tip="High back rounded vowel — the short partner to /uː/. Lips rounded but relaxed, not pushed forward. Tongue high and back but lax." data-examples="book,good,foot,put,full,wood"><span class="sound-dot"></span><span class="ipa">ʊ</span><span class="ex-word">foot</span><span class="ex-sub">b<u>oo</u>k</span></div>
+      <div class="card c-short card-stagger" data-ipa="ə" data-cat="short" data-keyword="SCHWA" data-word="about" data-tip="The schwa — most common vowel in English! Totally neutral: tongue centred, mouth barely open. Only in unstressed syllables. Every vowel can reduce to this." data-examples="about,sofa,butter,doctor,open,second"><span class="sound-dot"></span><span class="ipa">ə</span><span class="ex-word">schwa</span><span class="ex-sub"><u>a</u>bout</span></div>
+    </div>
+  </div>
+
+  <div class="section" data-section>
+    <div class="section-header"><span class="section-tag tag-long">Long vowels</span><span class="section-count">5 sounds</span></div>
+    <div class="grid g5">
+      <div class="card c-long card-stagger" data-ipa="iː" data-cat="long" data-keyword="FLEECE" data-word="see" data-tip="Long tense high front vowel. Tongue pushed forward and high. Lips spread in a slight smile. Hold it noticeably longer than /ɪ/ — the length is part of the sound." data-examples="see,tree,feet,need,keep,sleep"><span class="sound-dot"></span><span class="ipa">iː</span><span class="ex-word">fleece</span><span class="ex-sub">s<u>ee</u>d</span></div>
+      <div class="card c-long card-stagger" data-ipa="ɑː" data-cat="long" data-keyword="PALM" data-word="father" data-tip="Long open back unrounded vowel. Drop jaw fully, tongue flat at the back. Key RP feature: 'bath' and 'glass' use this — not /æ/ like in Northern England." data-examples="father,bath,grass,car,palm,heart"><span class="sound-dot"></span><span class="ipa">ɑː</span><span class="ex-word">palm</span><span class="ex-sub">f<u>a</u>ther</span></div>
+      <div class="card c-long card-stagger" data-ipa="ɔː" data-cat="long" data-keyword="THOUGHT" data-word="law" data-tip="Long mid back rounded vowel. Round lips into an 'o' shape, tongue mid-back. More strongly rounded than American English. Used in 'aw', 'or', 'au', 'al' spellings." data-examples="law,caught,born,more,floor,bought"><span class="sound-dot"></span><span class="ipa">ɔː</span><span class="ex-word">thought</span><span class="ex-sub">c<u>aw</u></span></div>
+      <div class="card c-long card-stagger" data-ipa="uː" data-cat="long" data-keyword="GOOSE" data-word="food" data-tip="Long tense high back rounded vowel. Lips strongly rounded and pushed forward. Tongue high and back. Keep it pure — don't let it become a diphthong." data-examples="food,blue,moon,true,shoe,rule"><span class="sound-dot"></span><span class="ipa">uː</span><span class="ex-word">goose</span><span class="ex-sub">f<u>oo</u>d</span></div>
+      <div class="card c-long card-stagger" data-ipa="ɜː" data-cat="long" data-keyword="NURSE" data-word="bird" data-tip="Long central vowel with no close equivalent in many languages. Crucially, in RP there is NO 'r' sound here — pure long central vowel. Lips neutrally spread." data-examples="bird,word,work,learn,first,heard"><span class="sound-dot"></span><span class="ipa">ɜː</span><span class="ex-word">nurse</span><span class="ex-sub">b<u>ir</u>d</span></div>
+    </div>
+  </div>
+
+  <div class="section" data-section>
+    <div class="section-header"><span class="section-tag tag-diph">Diphthongs</span><span class="section-count">8 sounds</span></div>
+    <div class="grid g4">
+      <div class="card c-diph card-stagger" data-ipa="eɪ" data-cat="diph" data-keyword="FACE" data-word="day" data-tip="Glides from /e/ to /ɪ/. Start mid-front, move tongue upward toward /ɪ/. First element is longer and stronger. Very common in RP." data-examples="day,make,rain,great,say,eight"><span class="sound-dot"></span><span class="ipa">eɪ</span><span class="ex-word">face</span><span class="ex-sub">d<u>ay</u></span></div>
+      <div class="card c-diph card-stagger" data-ipa="əʊ" data-cat="diph" data-keyword="GOAT" data-word="go" data-tip="Glides from schwa /ə/ to /ʊ/. Distinctively British — Americans use /oʊ/ instead. Start neutral centre, then round lips and raise tongue back." data-examples="go,home,stone,know,boat,road"><span class="sound-dot"></span><span class="ipa">əʊ</span><span class="ex-word">goat</span><span class="ex-sub">g<u>o</u></span></div>
+      <div class="card c-diph card-stagger" data-ipa="aɪ" data-cat="diph" data-keyword="PRICE" data-word="fly" data-tip="Glides from open /a/ to /ɪ/. Start wide open, tongue rises toward front. Starting point is further back in RP than in many other accents." data-examples="fly,high,buy,time,night,sky"><span class="sound-dot"></span><span class="ipa">aɪ</span><span class="ex-word">price</span><span class="ex-sub">m<u>y</u></span></div>
+      <div class="card c-diph card-stagger" data-ipa="aʊ" data-cat="diph" data-keyword="MOUTH" data-word="now" data-tip="Glides from open /a/ to /ʊ/. Start mouth wide open, then round lips as tongue moves back and up. Starting sound is front-central in RP." data-examples="now,out,town,cloud,found,brown"><span class="sound-dot"></span><span class="ipa">aʊ</span><span class="ex-word">mouth</span><span class="ex-sub">n<u>ow</u></span></div>
+      <div class="card c-diph card-stagger" data-ipa="ɔɪ" data-cat="diph" data-keyword="CHOICE" data-word="boy" data-tip="Glides from rounded /ɔ/ to /ɪ/. Start with back-of-mouth rounded position, move tongue forward and up. Lips unround as you glide." data-examples="boy,toy,oil,join,voice,coin"><span class="sound-dot"></span><span class="ipa">ɔɪ</span><span class="ex-word">choice</span><span class="ex-sub">b<u>oy</u></span></div>
+      <div class="card c-diph card-stagger" data-ipa="ɪə" data-cat="diph" data-keyword="NEAR" data-word="here" data-tip="Glides from /ɪ/ toward schwa /ə/. The 'r' in spelling is NOT pronounced in RP — it triggers the schwa glide. Tongue moves from high-front down to neutral." data-examples="here,near,fear,ear,clear,dear"><span class="sound-dot"></span><span class="ipa">ɪə</span><span class="ex-word">near</span><span class="ex-sub">h<u>ere</u></span></div>
+      <div class="card c-diph card-stagger" data-ipa="eə" data-cat="diph" data-keyword="SQUARE" data-word="there" data-tip="Glides from /e/ toward schwa /ə/. No 'r' sound in RP — a gentle glide to neutral centre. Some modern RP speakers use a pure long vowel /ɛː/ instead." data-examples="there,care,hair,bear,fair,share"><span class="sound-dot"></span><span class="ipa">eə</span><span class="ex-word">square</span><span class="ex-sub">th<u>ere</u></span></div>
+      <div class="card c-diph card-stagger" data-ipa="ʊə" data-cat="diph" data-keyword="CURE" data-word="pure" data-tip="Glides from /ʊ/ toward schwa /ə/. Becoming rare in modern RP — many speakers replace it with /ɔː/. More common in traditional or formal RP." data-examples="pure,cure,sure,tour,poor,jury"><span class="sound-dot"></span><span class="ipa">ʊə</span><span class="ex-word">cure</span><span class="ex-sub">p<u>ure</u></span></div>
+    </div>
+  </div>
+
+  <div class="section" data-section>
+    <div class="section-header"><span class="section-tag tag-stop">Plosives (stops)</span><span class="section-count">6 sounds</span></div>
+    <div class="grid g6">
+      <div class="card c-stop card-stagger" data-ipa="p" data-cat="stop" data-keyword="PEN" data-word="pen" data-tip="Voiceless bilabial stop. Both lips press together, build air pressure, release in a burst. Aspirated at the start of stressed syllables: 'pin' has a puff of air." data-examples="pen,cap,lip,step,park,happy"><span class="sound-dot"></span><span class="ipa">p</span><span class="ex-word">pen</span><span class="ex-sub"><u>p</u>ig</span></div>
+      <div class="card c-stop card-stagger" data-ipa="b" data-cat="stop" data-keyword="BAD" data-word="bad" data-tip="Voiced bilabial stop — like /p/ but vocal cords vibrate. Both lips close then release. At word endings, British speakers may devoice slightly but it remains distinct." data-examples="bad,cab,rib,bed,rob,club"><span class="sound-dot"></span><span class="ipa">b</span><span class="ex-word">bad</span><span class="ex-sub"><u>b</u>ig</span></div>
+      <div class="card c-stop card-stagger" data-ipa="t" data-cat="stop" data-keyword="TEA" data-word="tea" data-tip="Voiceless alveolar stop. Tongue tip touches the ridge behind upper front teeth. In RP, 't' is NOT glottalised as often as in many British regional accents." data-examples="tea,cat,tip,stop,best,quite"><span class="sound-dot"></span><span class="ipa">t</span><span class="ex-word">tea</span><span class="ex-sub"><u>t</u>op</span></div>
+      <div class="card c-stop card-stagger" data-ipa="d" data-cat="stop" data-keyword="DID" data-word="did" data-tip="Voiced alveolar stop — voiced partner of /t/. Same tongue position, but vocal cords vibrate. Voice may fade at word-endings but the distinction from /t/ is maintained." data-examples="did,dog,mud,bad,lady,admit"><span class="sound-dot"></span><span class="ipa">d</span><span class="ex-word">did</span><span class="ex-sub"><u>d</u>og</span></div>
+      <div class="card c-stop card-stagger" data-ipa="k" data-cat="stop" data-keyword="CAT" data-word="cat" data-tip="Voiceless velar stop. Back of tongue raises to the soft palate. Position varies: further forward before front vowels (key), further back before back vowels (car)." data-examples="cat,back,kite,rock,clock,risk"><span class="sound-dot"></span><span class="ipa">k</span><span class="ex-word">cat</span><span class="ex-sub"><u>k</u>ite</span></div>
+      <div class="card c-stop card-stagger" data-ipa="ɡ" data-cat="stop" data-keyword="GET" data-word="get" data-tip="Voiced velar stop — voiced partner of /k/. Back of tongue to soft palate with vibrating vocal cords. Silent in 'sign', 'gnome', and 'foreign'." data-examples="get,big,leg,ago,flag,gold"><span class="sound-dot"></span><span class="ipa">ɡ</span><span class="ex-word">get</span><span class="ex-sub"><u>g</u>oat</span></div>
+    </div>
+  </div>
+
+  <div class="section" data-section>
+    <div class="section-header"><span class="section-tag tag-fric">Fricatives</span><span class="section-count">9 sounds</span></div>
+    <div class="grid" style="grid-template-columns:repeat(5,minmax(0,1fr));gap:8px">
+      <div class="card c-fric card-stagger" data-ipa="f" data-cat="fric" data-keyword="FAT" data-word="fat" data-tip="Voiceless labiodental fricative. Upper teeth lightly touch inner lower lip, air flows through. No voice — no vibration at throat. Also spelt 'ph' (phone)." data-examples="fat,off,leaf,phone,soft,roof"><span class="sound-dot"></span><span class="ipa">f</span><span class="ex-word">fat</span><span class="ex-sub"><u>f</u>ox</span></div>
+      <div class="card c-fric card-stagger" data-ipa="v" data-cat="fric" data-keyword="VAN" data-word="van" data-tip="Voiced labiodental fricative — voiced partner of /f/. Same lip-tooth position, but voice your throat. Feel the buzz on your teeth." data-examples="van,live,wave,very,five,over"><span class="sound-dot"></span><span class="ipa">v</span><span class="ex-word">van</span><span class="ex-sub"><u>v</u>ine</span></div>
+      <div class="card c-fric card-stagger" data-ipa="θ" data-cat="fric" data-keyword="THIN" data-word="thin" data-tip="Voiceless dental fricative. Tongue tip approaches edge of upper front teeth. Air passes through to create a soft breathy hiss. No voicing — don't buzz!" data-examples="thin,bath,mouth,think,teeth,truth"><span class="sound-dot"></span><span class="ipa">θ</span><span class="ex-word">thin</span><span class="ex-sub"><u>th</u>ink</span></div>
+      <div class="card c-fric card-stagger" data-ipa="ð" data-cat="fric" data-keyword="THEN" data-word="this" data-tip="Voiced dental fricative. Same tongue position as /θ/ but vocal cords vibrate. This is 'the', 'this', 'that', 'they' — most English function words use THIS one." data-examples="this,father,smooth,bathe,those,breathe"><span class="sound-dot"></span><span class="ipa">ð</span><span class="ex-word">then</span><span class="ex-sub"><u>th</u>is</span></div>
+      <div class="card c-fric card-stagger" data-ipa="s" data-cat="fric" data-keyword="SUN" data-word="sun" data-tip="Voiceless alveolar fricative. Tongue near alveolar ridge, sides touch upper molars, air flows down centre groove creating a sharp hiss." data-examples="sit,bus,nice,city,six,dress"><span class="sound-dot"></span><span class="ipa">s</span><span class="ex-word">sun</span><span class="ex-sub"><u>s</u>it</span></div>
+      <div class="card c-fric card-stagger" data-ipa="z" data-cat="fric" data-keyword="ZOO" data-word="zoo" data-tip="Voiced alveolar fricative — voiced partner of /s/. Same position but vocal cords vibrate. Very common as a plural ending: cats /s/, dogs /z/." data-examples="zoo,jazz,nose,zone,buzz,dogs"><span class="sound-dot"></span><span class="ipa">z</span><span class="ex-word">zoo</span><span class="ex-sub"><u>z</u>ip</span></div>
+      <div class="card c-fric card-stagger" data-ipa="ʃ" data-cat="fric" data-keyword="SHE" data-word="she" data-tip="Voiceless palato-alveolar fricative. Tongue raised toward the palate, lips slightly rounded. A broader, hushing sound compared to /s/. Think: 'shhh, be quiet'." data-examples="she,fish,push,nation,wish,action"><span class="sound-dot"></span><span class="ipa">ʃ</span><span class="ex-word">she</span><span class="ex-sub"><u>sh</u>ip</span></div>
+      <div class="card c-fric card-stagger" data-ipa="ʒ" data-cat="fric" data-keyword="VISION" data-word="vision" data-tip="Voiced palato-alveolar fricative — rarest consonant in English. Voiced partner of /ʃ/. Same tongue position but voiced. Mostly in French loanwords." data-examples="vision,measure,azure,genre,regime,beige"><span class="sound-dot"></span><span class="ipa">ʒ</span><span class="ex-word">vision</span><span class="ex-sub">mea<u>s</u>ure</span></div>
+      <div class="card c-fric card-stagger" data-ipa="h" data-cat="fric" data-keyword="HOW" data-word="hat" data-tip="Voiceless glottal fricative. Air flows through the open glottis with light friction. In RP, /h/ is never dropped — unlike many British regional accents." data-examples="hat,ahead,whole,hot,house,heavy"><span class="sound-dot"></span><span class="ipa">h</span><span class="ex-word">how</span><span class="ex-sub"><u>h</u>at</span></div>
+    </div>
+  </div>
+
+  <div class="section" data-section>
+    <div class="section-header"><span class="section-tag tag-affr">Affricates</span><span class="section-count">2 sounds</span></div>
+    <div class="grid g2" style="max-width:300px">
+      <div class="card c-affr card-stagger" data-ipa="tʃ" data-cat="affr" data-keyword="CHIN" data-word="chin" data-tip="Voiceless palato-alveolar affricate. Starts like /t/ then releases as /ʃ/. The transition must be smooth — it's one single sound, not two separate ones." data-examples="chin,beach,catch,cheese,match,rich"><span class="sound-dot"></span><span class="ipa">tʃ</span><span class="ex-word">chin</span><span class="ex-sub"><u>ch</u>ip</span></div>
+      <div class="card c-affr card-stagger" data-ipa="dʒ" data-cat="affr" data-keyword="JAM" data-word="jam" data-tip="Voiced palato-alveolar affricate — voiced partner of /tʃ/. Starts like /d/ then releases as /ʒ/. Found in 'j' spelling and 'g' before 'e', 'i', 'y' (gem, giant)." data-examples="jam,age,bridge,judge,giant,gem"><span class="sound-dot"></span><span class="ipa">dʒ</span><span class="ex-word">jam</span><span class="ex-sub"><u>j</u>ump</span></div>
+    </div>
+  </div>
+
+  <div class="section" data-section>
+    <div class="section-header"><span class="section-tag tag-nasal">Nasals</span><span class="section-count">3 sounds</span></div>
+    <div class="grid g3" style="max-width:400px">
+      <div class="card c-nasal card-stagger" data-ipa="m" data-cat="nasal" data-keyword="MAN" data-word="man" data-tip="Voiced bilabial nasal. Lips close completely but air escapes through the nose. A full, buzzing resonance in the nasal cavity." data-examples="man,arm,some,summer,lamp,dream"><span class="sound-dot"></span><span class="ipa">m</span><span class="ex-word">man</span><span class="ex-sub"><u>m</u>oon</span></div>
+      <div class="card c-nasal card-stagger" data-ipa="n" data-cat="nasal" data-keyword="NOW" data-word="now" data-tip="Voiced alveolar nasal. Tongue tip to alveolar ridge, velum lowered, air exits nasally. Can be a syllable nucleus in unstressed syllables: 'button', 'garden'." data-examples="now,sun,ten,any,nine,open"><span class="sound-dot"></span><span class="ipa">n</span><span class="ex-word">now</span><span class="ex-sub"><u>n</u>ose</span></div>
+      <div class="card c-nasal card-stagger" data-ipa="ŋ" data-cat="nasal" data-keyword="SING" data-word="sing" data-tip="Voiced velar nasal. Back of tongue to soft palate, air through nose. In RP, '-ng' endings are /ŋ/ NOT /ŋg/ — 'singing' is /sɪŋɪŋ/, not /sɪŋgɪŋg/." data-examples="sing,ring,long,thank,bank,thinking"><span class="sound-dot"></span><span class="ipa">ŋ</span><span class="ex-word">sing</span><span class="ex-sub">ri<u>ng</u></span></div>
+    </div>
+  </div>
+
+  <div class="section" data-section>
+    <div class="section-header"><span class="section-tag tag-approx">Approximants</span><span class="section-count">4 sounds</span></div>
+    <div class="grid g4" style="max-width:520px">
+      <div class="card c-approx card-stagger" data-ipa="l" data-cat="approx" data-keyword="LET" data-word="let" data-tip="Voiced alveolar lateral approximant. Tongue tip to alveolar ridge; air flows around the sides. In RP, 'dark l' /ɫ/ appears after vowels (bell, milk)." data-examples="let,feel,milk,ball,well,cold"><span class="sound-dot"></span><span class="ipa">l</span><span class="ex-word">let</span><span class="ex-sub"><u>l</u>eg</span></div>
+      <div class="card c-approx card-stagger" data-ipa="r" data-cat="approx" data-keyword="RED" data-word="red" data-tip="Voiced alveolar approximant. In RP, /r/ ONLY occurs before a vowel — never at word ends or before consonants. Non-rhotic: 'car' ends in /ɑː/, not /ɑːr/." data-examples="red,try,around,bring,road,very"><span class="sound-dot"></span><span class="ipa">r</span><span class="ex-word">red</span><span class="ex-sub"><u>r</u>un</span></div>
+      <div class="card c-approx card-stagger" data-ipa="j" data-cat="approx" data-keyword="YET" data-word="yet" data-tip="Voiced palatal approximant. Tongue body raised toward hard palate, like starting /iː/. Only before vowels. Traditional RP: 'tube', 'dune', 'new' have /j/." data-examples="yes,yet,year,use,few,beauty"><span class="sound-dot"></span><span class="ipa">j</span><span class="ex-word">yet</span><span class="ex-sub"><u>y</u>es</span></div>
+      <div class="card c-approx card-stagger" data-ipa="w" data-cat="approx" data-keyword="WET" data-word="wet" data-tip="Voiced labio-velar approximant. Lips strongly rounded, tongue raised at back — like /uː/. Only before vowels. In RP 'new' is /njuː/ and 'few' is /fjuː/." data-examples="win,away,one,between,swim,flower"><span class="sound-dot"></span><span class="ipa">w</span><span class="ex-word">wet</span><span class="ex-sub"><u>w</u>in</span></div>
+    </div>
+  </div>
+
+  <div class="legend">
+    <div class="leg"><span class="leg-dot" style="background:#7eb8f7"></span>Short vowels</div>
+    <div class="leg"><span class="leg-dot" style="background:#b8a8ff"></span>Long vowels</div>
+    <div class="leg"><span class="leg-dot" style="background:#5de0a8"></span>Diphthongs</div>
+    <div class="leg"><span class="leg-dot" style="background:#f09a6a"></span>Plosives</div>
+    <div class="leg"><span class="leg-dot" style="background:#f5c060"></span>Fricatives</div>
+    <div class="leg"><span class="leg-dot" style="background:#f07ab0"></span>Affricates</div>
+    <div class="leg"><span class="leg-dot" style="background:#8ed65a"></span>Nasals</div>
+    <div class="leg"><span class="leg-dot" style="background:#b0ada0"></span>Approximants</div>
+  </div>
+</div>
+
+<div class="footer">British English Phonemes · Received Pronunciation (RP) · 44 phonemes · UK audio via Free Dictionary API (Google UK MP3s)</div>
+
+<div class="overlay" id="overlay">
+  <div class="modal" id="modal">
+    <button class="modal-close" id="modal-close">✕</button>
+    <div class="modal-badge" id="modal-badge"></div>
+    <div class="modal-ipa" id="modal-ipa"></div>
+    <div class="modal-keyword" id="modal-keyword"></div>
+    <div class="modal-tip" id="modal-tip"></div>
+    <div class="modal-examples" id="modal-examples"></div>
+    <button class="modal-play" id="modal-play">
+      <span id="play-label">▶ Play British pronunciation</span>
+      <span class="wave" id="wave-bars" style="display:none"><span></span><span></span><span></span><span></span><span></span></span>
+    </button>
+    <div class="audio-status" id="audio-status"></div>
+  </div>
+</div>
+
+<script>
+const catColors = { short:'#7eb8f7',long:'#b8a8ff',diph:'#5de0a8',stop:'#f09a6a',fric:'#f5c060',affr:'#f07ab0',nasal:'#8ed65a',approx:'#b0ada0' };
+const catNames  = { short:'Short vowel',long:'Long vowel',diph:'Diphthong',stop:'Plosive',fric:'Fricative',affr:'Affricate',nasal:'Nasal',approx:'Approximant' };
+
+const overlay    = document.getElementById('overlay');
+const modalIpa   = document.getElementById('modal-ipa');
+const modalKw    = document.getElementById('modal-keyword');
+const modalTip   = document.getElementById('modal-tip');
+const modalEx    = document.getElementById('modal-examples');
+const modalBadge = document.getElementById('modal-badge');
+const modalPlay  = document.getElementById('modal-play');
+const playLabel  = document.getElementById('play-label');
+const waveBars   = document.getElementById('wave-bars');
+const statusEl   = document.getElementById('audio-status');
+
+let currentAudio = null;
+let audioCache   = {};
+let currentWord  = '';
+
+async function fetchUKAudio(word) {
+  const w = word.toLowerCase().trim();
+  if (w in audioCache) return audioCache[w];
+  try {
+    const res = await fetch('https://api.dictionaryapi.dev/api/v2/entries/en/' + encodeURIComponent(w));
+    if (!res.ok) throw new Error();
+    const data = await res.json();
+    const phonetics = (data[0] && data[0].phonetics) ? data[0].phonetics : [];
+    const pick = phonetics.find(p => p.audio && p.audio.includes('_gb_'))
+              || phonetics.find(p => p.audio && (p.audio.includes('-gb') || p.audio.includes('uk_')))
+              || phonetics.find(p => p.audio && p.audio !== '');
+    const url = pick ? (pick.audio.startsWith('//') ? 'https:' + pick.audio : pick.audio) : null;
+    audioCache[w] = url;
+    return url;
+  } catch(e) { audioCache[w] = null; return null; }
+}
+
+function setWave(on, col) {
+  playLabel.style.display = on ? 'none' : 'inline';
+  waveBars.style.display  = on ? 'flex' : 'none';
+  if (col) waveBars.style.color = col;
+}
+
+async function playWord(word, accentColor) {
+  if (currentAudio) { currentAudio.pause(); currentAudio = null; setWave(false); }
+  statusEl.textContent = 'Fetching UK audio for "' + word + '"…';
+  const url = await fetchUKAudio(word);
+  if (!url) { statusEl.textContent = 'No UK audio found — try another word'; setWave(false); return; }
+  const audio = new Audio(url);
+  currentAudio = audio;
+  setWave(true, accentColor);
+  statusEl.textContent = '';
+  audio.play().catch(() => { setWave(false); statusEl.textContent = 'Browser blocked autoplay — click again'; });
+  audio.onended = () => { setWave(false); currentAudio = null; };
+  audio.onerror = () => { setWave(false); statusEl.textContent = 'Audio load error'; currentAudio = null; };
+}
+
+let modalColor = '#b8a8ff';
+
+function openModal(card) {
+  const ipa      = card.dataset.ipa;
+  const cat      = card.dataset.cat;
+  const keyword  = card.dataset.keyword;
+  const tip      = card.dataset.tip;
+  const examples = card.dataset.examples.split(',');
+  currentWord    = card.dataset.word;
+  modalColor     = catColors[cat];
+
+  modalIpa.textContent  = ipa;
+  modalIpa.style.color  = modalColor;
+  modalKw.textContent   = keyword + ' word';
+  modalTip.textContent  = tip;
+  modalTip.style.borderLeftColor = modalColor;
+  modalBadge.textContent = catNames[cat];
+  modalBadge.style.color = modalColor;
+  modalBadge.style.borderColor = modalColor;
+  modalBadge.style.background  = modalColor + '1a';
+  playLabel.textContent = '▶  Play  "' + currentWord + '"  in British English';
+  statusEl.textContent  = '';
+  setWave(false);
+
+  modalEx.innerHTML = '';
+  examples.forEach(w => {
+    w = w.trim();
+    const pill = document.createElement('span');
+    pill.className = 'ex-pill';
+    pill.textContent = w;
+    pill.addEventListener('click', () => {
+      document.querySelectorAll('.ex-pill').forEach(p => { p.classList.remove('active'); p.style.color=''; p.style.borderColor=''; });
+      pill.classList.add('active');
+      pill.style.color = modalColor;
+      pill.style.borderColor = modalColor;
+      playWord(w, modalColor);
+    });
+    modalEx.appendChild(pill);
+  });
+
+  overlay.classList.add('open');
+}
+
+function closeModal() {
+  overlay.classList.remove('open');
+  if (currentAudio) { currentAudio.pause(); currentAudio = null; }
+  setWave(false);
+}
+
+modalPlay.addEventListener('click', () => {
+  if (currentAudio && !currentAudio.paused) { currentAudio.pause(); currentAudio = null; setWave(false); }
+  else playWord(currentWord, modalColor);
+});
+
+document.getElementById('modal-close').addEventListener('click', closeModal);
+overlay.addEventListener('click', e => { if (e.target === overlay) closeModal(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+document.querySelectorAll('.card').forEach(card => {
+  card.addEventListener('click', () => {
+    card.classList.add('pop');
+    card.addEventListener('animationend', () => card.classList.remove('pop'), {once:true});
+    openModal(card);
+  });
+});
+
+const io = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (!entry.isIntersecting) return;
+    entry.target.classList.add('visible');
+    entry.target.querySelectorAll('.card-stagger').forEach((c,i) => setTimeout(() => c.classList.add('in'), i*55));
+  });
+}, {threshold:0.08});
+
+document.querySelectorAll('[data-section]').forEach(s => io.observe(s));
+</script>
+</body>
+</html>
